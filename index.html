@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>My Portfolio</title>
+    <style>
+      .main{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='main' id="loading">
+      Loading......
+    </div>
+  <div class="main" id='mainContainer' hidden>
+      <img
+      height ='100'
+      width = '100'
+      id='profileImage'
+      >
+
+      <h3 id='fullname'></h3>
+      <p id='bio'></p>
+      <p>
+      Check me on <a id='githubLink'>Github</a>
+      </p>
+      <p>
+      These are my projects:
+      <br>
+       <a id="repo">Repos</a>
+      </p>
+
+  </div>
+
+  <script>
+    fetch("https://api.github.com/users/sujitmanandhar")
+      .then(response => response.json())
+      .then(function(data){
+          console.log(data)
+
+          document.getElementById('profileImage').src = data['avatar_url']
+          document.getElementById('fullname').textContent = data['name']
+          document.getElementById('bio').textContent = data['bio']
+          document.getElementById('githubLink').href = data['html_url']
+          document.getElementById('mainContainer').hidden = false
+          document.getElementById('loading').hidden = true
+      })
+
+  </script>
+
+
+  <script>
+  fetch("https://api.github.com/users/sujitmanandhar/repos")
+      .then(response =>response.json())
+      .then(function(data){
+          console.log(data)
+          let m = data.length;
+          var n = parseInt(m);
+          let repoName = "";
+          for(i = 0;i < n; i++ )
+              {
+               repoName += " Repo " + i +"  "+ data[i]['name'] +"<br>"+ "<br>";
+              }
+              document.getElementById('repo').innerHTML = repoName
+     })
+  </script>
+
+
+
+
+  </body>
+</html>
